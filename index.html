@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Apps</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./Logo-FR.png">
+   
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <button class="back-btn" onclick="showMenu()">
+                🔙 Back
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="hero" id="hero">
+            <div class="pokemon-animation">
+                <div class="pokeball"></div>
+            </div>
+            <h1>Naisss Dashboard</h1>
+            <p>Pilih apa yang akan anda gunakan</p>
+        </div>
+
+        <div class="apps-grid" id="appsGrid">
+            <div class="app-card" onclick="loadApp('stock-shopify')">
+                <span class="card-icon">🛍️</span>
+                <h3 class="card-title">Stock Shopify</h3>
+                <p class="card-description">Bulk update untuk inventory salah satu gudang yang ada.</p>
+                <div class="card-arrow">→</div>
+            </div>
+
+            <div class="app-card" onclick="loadApp('daily-stock')">
+                <span class="card-icon">📈</span>
+                <h3 class="card-title">Daily Stock</h3>
+                <p class="card-description">Daily stock yang ada di Warehouse Kubik Logistic (PCA).</p>
+                <div class="card-arrow">→</div>
+            </div>
+
+            <div class="app-card" onclick="loadApp('stock-meta')">
+                <span class="card-icon">🔍</span>
+                <h3 class="card-title">Stock Meta</h3>
+                <p class="card-description">Update untuk menampilkan jumlah stock yang ada di Web.</p>
+                <div class="card-arrow">→</div>
+            </div>
+
+            <div class="app-card new-tab" onclick="openInNewTab('invoice-maker')">
+                <span class="card-icon">🧾</span>
+                <h3 class="card-title">Invoice Maker</h3>
+                <p class="card-description">Pembuat invoice Bulk Order.</p>
+                <div class="card-arrow">↗</div>
+            </div>
+
+            <div class="app-card" onclick="loadApp('bulk-discount')">
+                <span class="card-icon">💰</span>
+                <h3 class="card-title">Bulk Discount</h3>
+                <p class="card-description">Bulk update price yang ada di Web.</p>
+                <div class="card-arrow">→</div>
+            </div>
+            
+            <div class="app-card new-tab" onclick="openInNewTab('master-stock')">
+                <span class="card-icon">👀</span>
+                <h3 class="card-title">Master Stock</h3>
+                <p class="card-description">Melihat dan Mengedit Master Stock untuk Seluruh Sheet.</p>
+                <div class="card-arrow">↗</div>
+            </div>
+
+            <div class="app-card" onclick="loadApp('grab-corporate')">
+                <span class="card-icon">📦</span>
+                <h3 class="card-title">Grab Corporate</h3>
+                <p class="card-description">Voucher Grab Corporate Web bulan Oktober.</p>
+                <div class="card-arrow">→</div>
+            </div>
+
+            <div class="app-card new-tab" onclick="openInNewTab('thres-hold')">
+                <span class="card-icon">⚖️</span>
+                <h3 class="card-title">Threshold</h3>
+                <p class="card-description">Melihat Qty untuk Bulk Order.</p>
+                <div class="card-arrow">↗</div>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="loading-text">Kela loading.. sing sabar 😇</div>
+            <div class="loading-spinner"></div>
+        </div>
+
+        <div class="iframe-container" id="iframeContainer">
+            <iframe id="appFrame" src="" title="App Frame"></iframe>
+        </div>
+    </div>
+
+<div class="lockscreen" id="lockscreen">
+    <div class="lockscreen-header">
+        <div class="lockscreen-header-content">
+            <button class="lockscreen-back-btn" onclick="closeLockscreen()">
+                🔙 Back
+            </button>
+        </div>
+    </div>
+    
+    <div class="lockscreen-content">
+        <div class="lock-container">
+            <div class="lock-icon" id="lockIcon">🔒</div>
+            <h2 class="lock-title">YTTA 🤭</h2>
+            <p class="lock-subtitle">Hayoo passwordnya apa 👀</p>
+            <div class="error-message" id="errorMessage">Salah 😋</div>
+            
+            <div class="password-display">
+                <div class="password-dot" id="dot1"></div>
+                <div class="password-dot" id="dot2"></div>
+                <div class="password-dot" id="dot3"></div>
+                <div class="password-dot" id="dot4"></div>
+                <div class="password-dot" id="dot5"></div>
+                <div class="password-dot" id="dot6"></div>
+            </div>
+
+            <div class="keypad">
+                <button class="keypad-btn" onclick="addDigit('1')">1</button>
+                <button class="keypad-btn" onclick="addDigit('2')">2</button>
+                <button class="keypad-btn" onclick="addDigit('3')">3</button>
+                <button class="keypad-btn" onclick="addDigit('4')">4</button>
+                <button class="keypad-btn" onclick="addDigit('5')">5</button>
+                <button class="keypad-btn" onclick="addDigit('6')">6</button>
+                <button class="keypad-btn" onclick="addDigit('7')">7</button>
+                <button class="keypad-btn" onclick="addDigit('8')">8</button>
+                <button class="keypad-btn" onclick="addDigit('9')">9</button>
+                <button class="keypad-btn zero" onclick="addDigit('0')">0</button>
+            </div>
+
+            <button class="clear-btn" onclick="clearPassword()">Hapus</button>
+        </div>
+    </div>
+</div>
+
+    <script>
+        const apps = {
+            'stock-shopify': 'https://script.google.com/macros/s/AKfycbz9sU_eKz5wqm20wXs-lo9zGeFZsA0Jtvs81SRtsXLU-macOuRryxQMpm_hNdkpph-6/exec',
+            'daily-stock': 'https://script.google.com/macros/s/AKfycbwcdNFrNTLrT0XtTo4DEgQzuZuCs-R-smDmUYdUH7AVRZdEwgDtto9FXY148wuve5KiMg/exec',
+            'stock-meta': 'https://script.google.com/macros/s/AKfycbwOdI5Ra5rMfRC8-HSKRtsPTrmbdeUC53qxfu9MDRleaa3CXeIpGNKssppCwuSOIcWJ/exec',
+            'invoice-maker': 'https://docs.google.com/spreadsheets/d/1c91PkMLc0ImL2B2wlYCL7eJES78-kka_buLi_t5DBXs/edit?gid=0#gid=0',
+            'bulk-discount': 'https://script.google.com/macros/s/AKfycbwPFlhm65jIrirZ8_1XTZ_TCJ3c4wrEdhsm_w2Ot3eAmjqlbeOTA3Ar4mNCNMqt1RO5/exec',
+            'master-stock': 'https://docs.google.com/spreadsheets/d/1jmpLH96B22KenmhF0e9ZYN79_39cyk39aSopWiH7bM8/edit?gid=0#gid=0',
+            'grab-corporate':'https://docs.google.com/spreadsheets/d/1C6Dx4ISupLRQiiejAillg4dk766R3-FR/edit?usp=sharing&ouid=104775323597269123935&rtpof=true&sd=true',
+            'thres-hold': 'https://app.powerbi.com/groups/me/reports/9ac856dc-3a01-44d8-b7a3-a2b141f089f4/a6b038953272b2947b23?experience=power-bi'
+        };
+
+        let currentPassword = '';
+        const correctPassword = '172701';
+
+        function openInNewTab(appId) {
+            const url = apps[appId];
+            if (url) {
+                window.open(url, '_blank', 'noopener,noreferrer');
+            }
+        }
+
+        function loadApp(appId) {
+            if (appId === 'grab-corporate') {
+                document.getElementById('lockscreen').classList.add('show');
+                currentPassword = '';
+                updatePasswordDots();
+                return;
+            }
+
+            const url = apps[appId];
+            if (!url) return;
+
+            document.getElementById('appsGrid').style.opacity = '0';
+            document.getElementById('hero').style.opacity = '0';
+            
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('show');
+                document.getElementById('appsGrid').classList.add('hide');
+                document.getElementById('hero').classList.add('hide');
+                
+                document.querySelector('.back-btn').style.display = 'block';
+                
+                const iframe = document.getElementById('appFrame');
+                iframe.src = url;
+                
+                iframe.onload = function() {
+                    document.getElementById('loading').classList.remove('show');
+                    document.getElementById('iframeContainer').classList.add('show');
+                };
+
+                iframe.onerror = function() {
+                    document.getElementById('loading').classList.remove('show');
+                    alert('Gagal memuat aplikasi. Silakan coba lagi.');
+                    showMenu();
+                };
+            }, 200);
+        }
+
+        function addDigit(digit) {
+            if (currentPassword.length < 6) {
+                currentPassword += digit;
+                updatePasswordDots();
+                
+                if (currentPassword.length === 6) {
+                    setTimeout(checkPassword, 300);
+                }
+            }
+        }
+
+        function updatePasswordDots() {
+            for (let i = 1; i <= 6; i++) {
+                const dot = document.getElementById(`dot${i}`);
+                if (i <= currentPassword.length) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            }
+        }
+
+        function checkPassword() {
+            const errorMessage = document.getElementById('errorMessage');
+            const lockIcon = document.getElementById('lockIcon');
+            if (currentPassword === correctPassword) {
+                document.getElementById('lockscreen').classList.remove('show');
+                
+                const url = apps['grab-corporate'];
+                document.getElementById('appsGrid').style.opacity = '0';
+                document.getElementById('hero').style.opacity = '0';
+                
+                setTimeout(() => {
+                    document.getElementById('loading').classList.add('show');
+                    document.getElementById('appsGrid').classList.add('hide');
+                    document.getElementById('hero').classList.add('hide');
+                    document.querySelector('.back-btn').style.display = 'block';
+                    
+                    const iframe = document.getElementById('appFrame');
+                    iframe.src = url;
+                    
+                    iframe.onload = function() {
+                        document.getElementById('loading').classList.remove('show');
+                        document.getElementById('iframeContainer').classList.add('show');
+                    };
+
+                    iframe.onerror = function() {
+                        document.getElementById('loading').classList.remove('show');
+                        alert('Gagal memuat aplikasi. Silakan coba lagi.');
+                        showMenu();
+                    };
+                }, 200);
+            } else {
+                errorMessage.classList.add('show');
+                lockIcon.classList.add('shake');
+                setTimeout(()=>lockIcon.classList.remove('shake'),600);
+                setTimeout(()=>errorMessage.classList.remove('show'),3000);
+                
+                setTimeout(() => {
+                    currentPassword = '';
+                    updatePasswordDots();
+                }, 1500);
+            }
+        }
+
+        function clearPassword() {
+            currentPassword = '';
+            updatePasswordDots();
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        function closeLockscreen() {
+            document.getElementById('lockscreen').classList.remove('show');
+            currentPassword = '';
+            updatePasswordDots();
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        function showMenu() {
+            document.getElementById('lockscreen').classList.remove('show');
+            currentPassword = '';
+            updatePasswordDots();
+            
+            const iframeContainer = document.getElementById('iframeContainer');
+            iframeContainer.classList.remove('show');
+            iframeContainer.style.display = 'none';
+            document.getElementById('loading').classList.remove('show');
+            
+            document.getElementById('appsGrid').classList.remove('hide');
+            document.getElementById('hero').classList.remove('hide');
+            
+            setTimeout(() => {
+                document.getElementById('appsGrid').style.opacity = '1';
+                document.getElementById('hero').style.opacity = '1';
+            }, 50);
+            
+            document.querySelector('.back-btn').style.display = 'none';
+            
+            const iframe = document.getElementById('appFrame');
+            iframe.src = '';
+            iframe.onload = null;
+            iframe.onerror = null;
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (document.getElementById('lockscreen').classList.contains('show')) {
+                    closeLockscreen();
+                } else {
+                    showMenu();
+                }
+            }
+            
+            if (document.getElementById('lockscreen').classList.contains('show')) {
+                if (e.key >= '0' && e.key <= '9') {
+                    addDigit(e.key);
+                } else if (e.key === 'Backspace') {
+                    currentPassword = currentPassword.slice(0, -1);
+                    updatePasswordDots();
+                } else if (e.key === 'Delete') {
+                    clearPassword();
+                }
+            }
+        });
+
+        document.querySelectorAll('.app-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'all 0.6s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+    <audio id="keySound" src="click.mp3" preload="auto"></audio>
+</body>
+</html>
